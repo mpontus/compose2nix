@@ -7,6 +7,9 @@ services:
   string:
     image: nginx:latest
     entrypoint: "ENV_VAR=$${ABC} bash /abc.sh"
+  string-with-quotes:
+    image: nginx:latest
+    entrypoint: 'bash -c "echo \"Hello World\" && ls"'
   empty-command-and-entrypoint:
     image: nginx:latest
     command: []

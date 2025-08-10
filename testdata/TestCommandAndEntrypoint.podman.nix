@@ -103,6 +103,27 @@
       "podman-network-test_default.service"
     ];
   };
+  virtualisation.oci-containers.containers."test-string-with-quotes" = {
+    image = "nginx:latest";
+    log-driver = "journald";
+    autoStart = false;
+    extraOptions = [
+      "--entrypoint=[\"bash\", \"-c\", \"echo \\\"Hello World\\\" && ls\"]"
+      "--network-alias=string-with-quotes"
+      "--network=test_default"
+    ];
+  };
+  systemd.services."podman-test-string-with-quotes" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "no";
+    };
+    after = [
+      "podman-network-test_default.service"
+    ];
+    requires = [
+      "podman-network-test_default.service"
+    ];
+  };
 
   # Networks
   systemd.services."podman-network-test_default" = {

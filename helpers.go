@@ -35,9 +35,8 @@ func sliceToStringArray(s []string) string {
 	b := strings.Builder{}
 	b.WriteString("[")
 	for i := range s {
-		// We purposefully do not use %q to avoid Go's built-in string escaping.
-		// Otherwise, we'd escape " characters a 2nd time for Nix.
-		s[i] = fmt.Sprintf(`"%s"`, s[i])
+		// Use %q to escape nested quotes in JSON string
+		s[i] = fmt.Sprintf(`%q`, s[i])
 	}
 	return fmt.Sprintf("[%s]", strings.Join(s, ", "))
 }
